@@ -95,7 +95,7 @@ if (empty($_SESSION)) {
 if ($_POST['action'] == 'add'){
     if (validationDataClients($_POST)) {
         $nextClientId = count($_SESSION['Clients']) + 1;
-        array_push($_SESSION['Clients'], CreateNewClient($_POST, $nextClientId));
+        $_SESSION['Clients'][] = CreateNewClient($_POST, $nextClientId);
     }
 }
 
