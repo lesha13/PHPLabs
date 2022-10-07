@@ -106,8 +106,8 @@ if ($_POST['action'] == 'edit'){
         foreach ($_SESSION['Clients'] as $key => $value) {
             if ($value['id'] == $idToEdit) {
                 $_SESSION['Clients'][$key] = CreateNewClient($_POST, $idToEdit);
+                break;
             }
-            break;
         }
     }
 }
