@@ -1,5 +1,7 @@
 <?php
-function defaultDataClients() {
+
+function defaultDataClients()
+{
     return [
         [
             'id' => 1,
@@ -36,7 +38,8 @@ function defaultDataClients() {
     ];
 }
 
-function CreateNewClient($array, $id) {
+function CreateNewClient($array, $id)
+{
     return [
         'id' => $id,
         'name' => $array['name'],
@@ -47,7 +50,8 @@ function CreateNewClient($array, $id) {
     ];
 }
 
-function validationDataClients($array) {
+function validationDataClients($array)
+{
     return !(
         empty($array['name']) ||
         empty($array['phone']) ||
@@ -60,11 +64,14 @@ function validationDataClients($array) {
     );
 }
 
-function filterByNameTime($arr, $name, $time) {
-    return array_filter($arr,
+function filterByNameTime($arr, $name, $time)
+{
+    return array_filter(
+        $arr,
         function ($value) use ($name, $time) {
             return ($value["name"] == $name and $value["time"] > $time);
-        });
+        }
+    );
 }
 
 function displayTableClients($array, $caption)
@@ -96,14 +103,13 @@ if (empty($_SESSION)) {
 $actionToDo = $_POST['action'];
 
 // adding client
-if ($actionToDo == 'add'){
+if ($actionToDo == 'add') {
     if (validationDataClients($_POST)) {
         $nextClientId = count($_SESSION['Clients']) + 1;
         $_SESSION['Clients'][] = CreateNewClient($_POST, $nextClientId);
     }
-}
-// editing client
-elseif ($actionToDo == 'edit'){
+} // editing client
+elseif ($actionToDo == 'edit') {
     if (validationDataClients($_POST)) {
         $idToEdit = $_POST['id'];
         foreach ($_SESSION['Clients'] as $key => $value) {
@@ -113,36 +119,36 @@ elseif ($actionToDo == 'edit'){
             }
         }
     }
-}
-// filtering clients
-elseif ($actionToDo == 'filter'){
+} // filtering clients
+elseif ($actionToDo == 'filter') {
     displayTableClients(
-            filterByNameTime($_SESSION['Clients'], $_POST['name'] , $_POST['time']), 'Specified clients'
+        filterByNameTime($_SESSION['Clients'], $_POST['name'], $_POST['time']),
+        'Specified clients'
     );
-}
-// saving data to clients.txt
+} // saving data to clients.txt
 elseif ($actionToDo == 'save') {
     $file = fopen("clients.txt", "w");
     fwrite($file, serialize($_SESSION['Clients']));
     fclose($file);
-}
-// loading data from clients.txt
+} // loading data from clients.txt
 elseif ($actionToDo == 'load') {
     $_SESSION['Clients'] = unserialize(file_get_contents("clients.txt"));
 }
 
 // display all clients
 displayTableClients($_SESSION['Clients'], 'Clients');
+
+unset($_POST);
 ?>
 <br>
 
-<button onclick="ShowAddForm()"> ADD </button>
-<button onclick="ShowEditForm()"> EDIT </button>
-<button onclick="ShowFilterForm()"> FILTER </button>
+<button onclick="ShowAddForm()"> ADD</button>
+<button onclick="ShowEditForm()"> EDIT</button>
+<button onclick="ShowFilterForm()"> FILTER</button>
 
 <br>
 
-<form action='<?= $_SERVER['PHP_SELF']?>' method='post' id='addForm'>
+<form action='<?= $_SERVER['PHP_SELF'] ?>' method='post' id='addForm'>
     ADD <br>
     <label> name:
         <input type='text' name='name'>
@@ -165,7 +171,7 @@ displayTableClients($_SESSION['Clients'], 'Clients');
 
 <br>
 
-<form action='<?= $_SERVER['PHP_SELF']?>' method='post' id='editForm'>
+<form action='<?= $_SERVER['PHP_SELF'] ?>' method='post' id='editForm'>
     EDIT <br>
     <label> id:
         <input type='number' name='id'>
@@ -191,7 +197,7 @@ displayTableClients($_SESSION['Clients'], 'Clients');
 
 <br>
 
-<form action='<?= $_SERVER['PHP_SELF']?>' method='post' id='filterForm'>
+<form action='<?= $_SERVER['PHP_SELF'] ?>' method='post' id='filterForm'>
     Filter <br>
     <label> name:
         <input type='text' name='name'>
@@ -203,12 +209,12 @@ displayTableClients($_SESSION['Clients'], 'Clients');
     <input type='submit' value='filter'>
 </form>
 
-<form action='<?= $_SERVER['PHP_SELF']?>' method='post' id='save'>
+<form action='<?= $_SERVER['PHP_SELF'] ?>' method='post' id='save'>
     <input type='hidden' name='action' value='save'>
     <input type='submit' value='Save to file'>
 </form>
 
-<form action='<?= $_SERVER['PHP_SELF']?>' method='post' id='load'>
+<form action='<?= $_SERVER['PHP_SELF'] ?>' method='post' id='load'>
     <input type='hidden' name='action' value='load'>
     <input type='submit' value='Upload from file'>
 </form>
@@ -217,32 +223,39 @@ displayTableClients($_SESSION['Clients'], 'Clients');
     #addForm {
         display: none;
     }
+
     #editForm {
         display: none;
     }
+
     #filterForm {
         display: none;
     }
+
     table, th, td {
         border: 1px solid;
         text-align: center;
     }
+
     th {
         width: 100px;
     }
+
     td {
         height: 50px;
     }
 </style>
 
 <script>
-function ShowAddForm() {
-    document.querySelector('#addForm').style.display = 'inline';
-}
-function ShowEditForm() {
-    document.querySelector('#editForm').style.display = 'inline';
-}
-function ShowFilterForm() {
-    document.querySelector('#filterForm').style.display = 'inline';
-}
+    function ShowAddForm() {
+        document.querySelector('#addForm').style.display = 'inline';
+    }
+
+    function ShowEditForm() {
+        document.querySelector('#editForm').style.display = 'inline';
+    }
+
+    function ShowFilterForm() {
+        document.querySelector('#filterForm').style.display = 'inline';
+    }
 </script>
