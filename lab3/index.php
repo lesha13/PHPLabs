@@ -1,7 +1,11 @@
 <?php
 
-include "Client.php";
-include "ClientsCollection.php";
+// include "Client.php";
+// include "ClientsCollection.php";
+
+spl_autoload_register(function ($class_name) {
+    include $class_name . '.php';
+});
 
 if (!isset($_SESSION)) {
     session_start();
@@ -27,14 +31,14 @@ if ($actionToDo == 'add') {
         );
     }
 } elseif ($actionToDo == 'filter') {
-    echo $_SESSION['Clients']->displayFilteredClients($_POST['name'], $_POST['time']);
+    echo Display::displayClients($_SESSION['Clients']->filterClients($_POST['name'], $_POST['time']));
 } elseif ($actionToDo == 'save') {
-    $_SESSION['Clients']->saveClients();
+    Repository::saveClients($_SESSION['Clients']->clients);
 } elseif ($actionToDo == 'load') {
-    $_SESSION['Clients']->loadClients();
+    $_SESSION['Clients']->clients = Repository::loadClients();
 }
 
-echo $_SESSION['Clients']->displayClients();
+echo Display::displayClients($_SESSION['Clients']->clients)
 ?>
 <br>
 

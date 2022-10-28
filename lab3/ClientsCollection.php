@@ -83,47 +83,4 @@ class ClientsCollection
             $client->bill = $array['bill'];
         }
     }
-
-    public function saveClients()
-    {
-        $file = fopen("clients.txt", "w");
-        fwrite($file, serialize($this->clients));
-        fclose($file);
-    }
-
-    public function loadClients()
-    {
-        $this->clients = unserialize(file_get_contents("clients.txt"));
-    }
-
-    public function displayClients()
-    {
-        $table = '<table>';
-        $table .= "<caption> Clients </caption>";
-        $table .= '<tr> <th>id</th> <th>name</th> <th>phone</th> <th>address</th> <th>time</th> <th>bill</th> </tr>';
-
-        foreach ($this->clients as $item) {
-            $table .= "<tr><td>$item->id</td><td>$item->name</td><td>$item->phone</td>" .
-                "<td>$item->address</td><td>$item->time</td><td>$item->bill</td></tr>";
-        }
-
-        $table .= '</table>';
-        return $table;
-    }
-
-    public function displayFilteredClients($name, $time)
-    {
-        $array = $this->filterClients($name, $time);
-        $table = '<table>';
-        $table .= "<caption> Clients </caption>";
-        $table .= '<tr> <th>id</th> <th>name</th> <th>phone</th> <th>address</th> <th>time</th> <th>bill</th> </tr>';
-
-        foreach ($array as $item) {
-            $table .= "<tr><td>$item->id</td><td>$item->name</td><td>$item->phone</td>" .
-                "<td>$item->address</td><td>$item->time</td><td>$item->bill</td></tr>";
-        }
-
-        $table .= '</table>';
-        return $table;
-    }
 }
