@@ -1,0 +1,9 @@
++ config.php - meta data for db conn;
++ DBConnect.php - creating PDO object;
+
+Repository.php - replaced all file methods with DB methods;
+Display.php - reworked for array of objects (in lab3 worked for array of Clients);
+Client.php - isn't used anymore;
+ClientsCollection - isn't used anymore;
+
+index.php - session, filter, load, save aren't used anymore (commented), reworked add and edit for DB, added delete;
